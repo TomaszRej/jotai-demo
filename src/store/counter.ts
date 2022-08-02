@@ -1,6 +1,6 @@
 import {atom} from 'jotai';
 
-const counterAtom = atom(0);
+export const counterAtom = atom(0);
 
 export const readCounterAtom = atom(get => get(counterAtom));
 

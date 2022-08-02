@@ -5,9 +5,12 @@ import MyButton from '../../components/MyButton';
 import {RootStackParamList} from '../../../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Counter'>;
+export type CounterScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Counter'
+>;
 
-const CounterScreen = ({navigation}: Props) => {
+const CounterScreen = ({navigation}: CounterScreenProps) => {
   return (
     <View>
       <Counter />

@@ -7,12 +7,12 @@ interface PostData {
   title?: string;
 }
 
-export const postData = atom<PostData>(async () => {
+export const postData = atom(async () => {
   const id = 9001;
   const response = await fetch(
     `https://hacker-news.firebaseio.com/v0/item/${id}.json`,
   );
-  return await response.json();
+  return response.json() as Promise<PostData>;
 });
 
 const PostTitle = () => {

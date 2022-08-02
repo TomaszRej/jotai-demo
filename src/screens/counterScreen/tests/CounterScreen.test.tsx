@@ -1,12 +1,15 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react-native';
-import CounterScreen, {counterAtom} from '../CounterScreen';
+import CounterScreen from '../CounterScreen';
+import {counterAtom} from '../../../store/counter';
 import {Provider} from 'jotai';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../../App';
 
 describe('CounterScreen', () => {
-  const navigation = jest.fn();
   test('should increment counter', () => {
-    render(<CounterScreen navigation={navigation} />);
+    render(<MockedNavigator component={CounterScreen} />);
 
     const counter = screen.getByTestId('counter');
 
@@ -19,7 +22,7 @@ describe('CounterScreen', () => {
   });
 
   test('should display correct initial value', () => {
-    render(<CounterScreen navigation={navigation} />, {
+    render(<MockedNavigator component={CounterScreen} />, {
       wrapper: ({children}) => (
         <Provider initialValues={[[counterAtom, 50]]}>{children}</Provider>
       ),
@@ -30,3 +33,20 @@ describe('CounterScreen', () => {
     expect(counter.props.children[1]).toBe(50);
   });
 });
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const MockedNavigator = ({
+  component,
+}: {
+  component: React.JSXElementConstructor<any>;
+}) => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Counter" component={component} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default MockedNavigator;
